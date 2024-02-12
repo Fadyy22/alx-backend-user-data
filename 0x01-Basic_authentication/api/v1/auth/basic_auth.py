@@ -24,15 +24,12 @@ class BasicAuth(Auth):
             base64_authorization_header: str) -> str:
         """returns the decoded value
         of a Base64 string base64_authorization_header"""
-        if (not base64_authorization_header
-                or not isinstance(base64_authorization_header, str)):
-            return None
-
-        try:
-            header = b64decode(base64_authorization_header).decode("utf-8")
-        except Exception:
-            return None
-        return header
+        if isinstance(base64_authorization_header, str):
+            try:
+                header = b64decode(base64_authorization_header).decode("utf-8")
+                return header
+            except Exception:
+                return None
 
     def extract_user_credentials(
             self,
