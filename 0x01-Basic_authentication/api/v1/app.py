@@ -30,7 +30,7 @@ def unauthorized(error) -> str:
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """Forbidden 403 handler"""
-    return jsonify({"error": "forbidden"}), 403
+    return jsonify({"error": "Forbidden"}), 403
 
 
 if __name__ == "__main__":
