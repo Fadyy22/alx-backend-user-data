@@ -2,6 +2,7 @@
 """module for Auth class that handles authentication"""
 from flask import request
 from typing import List, TypeVar
+from os import getenv
 
 
 class Auth:
@@ -31,5 +32,5 @@ class Auth:
     def session_cookie(self, request=None):
         """returns a cookie value from a request"""
         if request:
-            return request.cookies.get("_my_session_id")
+            return request.cookies.get(getenv("SESSION_NAME"))
         return None
