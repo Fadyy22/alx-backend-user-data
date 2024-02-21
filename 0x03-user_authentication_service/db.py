@@ -38,8 +38,19 @@ class DB:
         return user
 
     def find_user_by(self, **kwargs) -> User:
-        """method takes in arbitrary keyword arguments
+        """method that takes in arbitrary keyword arguments
         and returns the first row found in the users table
         as filtered by the method’s input arguments"""
         user = self._session.query(User).filter_by(**kwargs).one()
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """method that updates the user’s attributes
+        as passed in the method’s arguments
+        then commit changes to the database"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
