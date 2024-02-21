@@ -49,6 +49,16 @@ class Auth:
         except InvalidRequestError or NoResultFound:
             return None
 
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """return user by session_id if found, else None"""
+        if session_id:
+            try:
+                user = self._db.find_user_by(session_id=session_id)
+                return user
+            except InvalidRequestError or NoResultFound:
+                return None
+        return None
+
 
 def _hash_password(password: str) -> bytes:
     """method that takes in a password string arguments and returns bytes
