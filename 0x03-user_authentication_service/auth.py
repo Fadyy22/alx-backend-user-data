@@ -50,7 +50,6 @@ class Auth:
             return None
 
 
-
 def _hash_password(password: str) -> bytes:
     """method that takes in a password string arguments and returns bytes
     The returned bytes is a salted hash of the input password,
