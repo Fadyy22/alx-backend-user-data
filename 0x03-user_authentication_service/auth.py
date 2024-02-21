@@ -63,8 +63,6 @@ class Auth:
         """updates the corresponding user’s session ID to None"""
         try:
             self._db.update_user(user_id, session_id=None)
-        except InvalidRequestError or NoResultFound:
-            pass
         finally:
             return None
 
