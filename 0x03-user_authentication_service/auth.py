@@ -18,7 +18,7 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """registers and saves the user to the database"""
         try:
-            user = self._db.find_user_by(email=email)
+            self._db.find_user_by(email=email)
         except InvalidRequestError or NoResultFound:
             hashed_pw = _hash_password(password).decode("utf-8")
             new_user = self._db.add_user(email, hashed_pw)
@@ -62,7 +62,6 @@ class Auth:
     def destroy_session(self, user_id: int) -> None:
         """updates the corresponding user’s session ID to None"""
         try:
-            self._db.find_user_by(user_id=user_id)
             self._db.update_user(user_id, session_id=None)
         except InvalidRequestError or NoResultFound:
             return None
