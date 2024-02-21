@@ -64,6 +64,8 @@ class Auth:
         try:
             self._db.update_user(user_id, session_id=None)
         except InvalidRequestError or NoResultFound:
+            pass
+        finally:
             return None
 
 
