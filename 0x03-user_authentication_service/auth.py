@@ -38,6 +38,18 @@ class Auth:
         except InvalidRequestError or NoResultFound:
             return False
 
+    def create_session(self, email: str) -> str:
+        """generates a new UUID and store it in the database
+        as the user’s session_id, then return the session ID"""
+        try:
+            user = self._db.find_user_by(email=email)
+            session_id = _generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id
+        except InvalidRequestError or NoResultFound:
+            return None
+
+
 
 def _hash_password(password: str) -> bytes:
     """method that takes in a password string arguments and returns bytes
