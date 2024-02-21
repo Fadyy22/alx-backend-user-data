@@ -24,6 +24,19 @@ class Auth:
             return new_user
         raise ValueError(f"User {email} already exists")
 
+    def valid_login(self, email: str, password: str) -> bool:
+        """checks if the user entered valid credentials"""
+        try:
+            user = self._db.find_user_by(email=email)
+            encoded_password = password.encode("utf-8")
+            encoded_hashed_password = user.hashed_password.encode("utf-8")
+            if bcrypt.checkpw(encoded_password, encoded_hashed_password):
+                return True
+            else:
+                return False
+        except InvalidRequestError or NoResultFound:
+            return False
+
 
 def _hash_password(password: str) -> bytes:
     """method that takes in a password string arguments and returns bytes
