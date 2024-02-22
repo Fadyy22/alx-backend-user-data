@@ -17,13 +17,15 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> User:
         """registers and saves the user to the database"""
-        try:
-            self._db.find_user_by(email=email)
-        except InvalidRequestError or NoResultFound:
-            hashed_pw = _hash_password(password).decode("utf-8")
-            new_user = self._db.add_user(email, hashed_pw)
-            return new_user
-        raise ValueError(f"User {email} already exists")
+        if email and password:
+            try:
+                self._db.find_user_by(email=email)
+            except InvalidRequestError or NoResultFound:
+                hashed_pw = _hash_password(password).decode("utf-8")
+                new_user = self._db.add_user(email, hashed_pw)
+                return new_user
+            raise ValueError(f"User {email} already exists")
+        raise ValueError
 
     def valid_login(self, email: str, password: str) -> bool:
         """checks if the user entered valid credentials"""
