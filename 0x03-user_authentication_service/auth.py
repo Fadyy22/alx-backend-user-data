@@ -68,6 +68,16 @@ class Auth:
         finally:
             return None
 
+    def get_reset_password_token(self, email: str) -> str:
+        """generates a random token for password reset"""
+        try:
+            user = self._db.find_user_by(email=email)
+            reset_token = _generate_uuid()
+            self._db.update_user(user.id, reset_token=reset_token)
+            return reset_token
+        except InvalidRequestError or NoResultFound:
+            raise ValueError
+
 
 def _hash_password(password: str) -> bytes:
     """method that takes in a password string arguments and returns bytes
